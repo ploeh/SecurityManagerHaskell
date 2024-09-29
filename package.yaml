@@ -2,15 +2,11 @@ name:                security-manager
 version:             0.1.0.0
 #synopsis:
 #description:
-homepage:            https://github.com/githubuser/security-manager#readme
-license:             BSD-3-Clause
-author:              Author name here
-maintainer:          example@example.com
-copyright:           2024 Author name here
-category:            Web
+license:             GPL-3.0
+author:              Mark Seemann
+copyright:           2024 Mark Seemann
 extra-source-files:
 - README.md
-- CHANGELOG.md
 
 dependencies:
   - base >= 4.7 && < 5
