@@ -1,5 +1,6 @@
 module Main (main) where
 
+import SecurityManager (createUser)
+
 main :: IO ()
-main = do
-  putStrLn "hello world"
+main = createUser
