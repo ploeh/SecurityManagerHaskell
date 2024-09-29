@@ -1,27 +1,27 @@
 module SecurityManager (createUser) where
 
-import Text.Printf (printf)
+import Text.Printf (printf, IsChar)
 
-createUser :: IO ()
-createUser = do
-  putStrLn "Enter a username"
-  username <- getLine
-  putStrLn "Enter your full name"
-  fullName <- getLine
-  putStrLn "Enter your password"
-  password <- getLine
-  putStrLn "Re-enter your password"
-  confirmPassword <- getLine
+createUser :: (Monad m, Eq a, IsChar a) => (String -> m ()) -> m [a] -> m ()
+createUser writeLine readLine = do
+  writeLine "Enter a username"
+  username <- readLine
+  writeLine "Enter your full name"
+  fullName <- readLine
+  writeLine "Enter your password"
+  password <- readLine
+  writeLine "Re-enter your password"
+  confirmPassword <- readLine
 
   if password /= confirmPassword
   then
-    putStrLn "The passwords don't match"
+    writeLine "The passwords don't match"
   else
     if length password < 8
     then
-      putStrLn "Password must be at least 8 characters in length"
+      writeLine "Password must be at least 8 characters in length"
     else do
       -- Encrypt the password (just reverse it, should be secure)
       let array = reverse password
-      putStrLn $
+      writeLine $
         printf "Saving Details for User (%s, %s, %s)" username fullName array
