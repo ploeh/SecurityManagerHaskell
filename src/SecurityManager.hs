@@ -5,10 +5,8 @@ import Text.Printf (printf, IsChar)
 validatePassword :: String -> String -> Either String ()
 validatePassword pw1 pw2 =
   if pw1 == pw2
-  then
-    Right ()
-  else
-    Left "The passwords don't match"
+  then Right ()
+  else Left "The passwords don't match"
 
 createUser :: (Monad m, Eq a, IsChar a) => (String -> m ()) -> m [a] -> m ()
 createUser writeLine readLine = do
