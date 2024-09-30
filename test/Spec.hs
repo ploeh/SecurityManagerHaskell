@@ -11,4 +11,15 @@ main = defaultMain $ hUnitTestToTests $ TestList [
     pw <- ["password", "12345678", "abcdefgh"]
     let actual = validatePassword pw pw
     return $ Right () ~=? actual
+  ,
+  "Non-matching passwords" ~: do
+    (pw1, pw2) <-
+      [
+        ("password", "PASSWORD"),
+        ("12345678", "12345677"),
+        ("abcdefgh", "bacdefgh"),
+        ("aaa", "bbb")
+      ]
+    let actual = validatePassword pw1 pw2
+    return $ Left "The passwords don't match" ~=? actual
   ]
