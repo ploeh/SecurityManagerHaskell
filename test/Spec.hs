@@ -22,4 +22,9 @@ main = defaultMain $ hUnitTestToTests $ TestList [
       ]
     let actual = comparePasswords pw1 pw2
     return $ Left "The passwords don't match" ~=? actual
+  ,
+  "Validate short password" ~: do
+    pw <- ["", "1", "12", "abc", "1234", "gtrex", "123456", "1234567"]
+    let actual = validatePassword pw
+    return $ Left "Password must be at least 8 characters in length" ~=? actual
   ]
