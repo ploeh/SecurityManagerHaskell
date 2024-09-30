@@ -27,4 +27,9 @@ main = defaultMain $ hUnitTestToTests $ TestList [
     pw <- ["", "1", "12", "abc", "1234", "gtrex", "123456", "1234567"]
     let actual = validatePassword pw
     return $ Left "Password must be at least 8 characters in length" ~=? actual
+  ,
+  "Validate long password" ~: do
+    pw <- ["12345678", "123456789", "abcdefghij", "elevenchars"]
+    let actual = validatePassword pw
+    return $ Right pw ~=? actual
   ]

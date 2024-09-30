@@ -9,7 +9,10 @@ comparePasswords pw1 pw2 =
   else Left "The passwords don't match"
 
 validatePassword :: String -> Either String String
-validatePassword _ = Left "Password must be at least 8 characters in length"
+validatePassword pw =
+  if length pw < 8
+  then Left "Password must be at least 8 characters in length"
+  else Right pw
 
 createUser :: (Monad m, Eq a, IsChar a) => (String -> m ()) -> m [a] -> m ()
 createUser writeLine readLine = do
