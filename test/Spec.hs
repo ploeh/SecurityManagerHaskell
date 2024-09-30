@@ -7,7 +7,8 @@ import Test.Framework (defaultMain)
 
 main :: IO ()
 main = defaultMain $ hUnitTestToTests $ TestList [
-  "Matching passwords" ~:
-    let actual = validatePassword "password" "password"
-    in Right () ~=? actual
+  "Matching passwords" ~: do
+    pw <- ["password", "12345678", "abcdefgh"]
+    let actual = validatePassword pw pw
+    return $ Right () ~=? actual
   ]
