@@ -9,7 +9,7 @@ main :: IO ()
 main = defaultMain $ hUnitTestToTests $ TestList [
   "Matching passwords" ~: do
     pw <- ["password", "12345678", "abcdefgh"]
-    let actual = validatePassword pw pw
+    let actual = comparePasswords pw pw
     return $ Right pw ~=? actual
   ,
   "Non-matching passwords" ~: do
@@ -20,6 +20,6 @@ main = defaultMain $ hUnitTestToTests $ TestList [
         ("abcdefgh", "bacdefgh"),
         ("aaa", "bbb")
       ]
-    let actual = validatePassword pw1 pw2
+    let actual = comparePasswords pw1 pw2
     return $ Left "The passwords don't match" ~=? actual
   ]

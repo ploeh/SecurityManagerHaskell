@@ -2,8 +2,8 @@ module SecurityManager where
 
 import Text.Printf (printf, IsChar)
 
-validatePassword :: String -> String -> Either String String
-validatePassword pw1 pw2 =
+comparePasswords :: String -> String -> Either String String
+comparePasswords pw1 pw2 =
   if pw1 == pw2
   then Right pw1
   else Left "The passwords don't match"
