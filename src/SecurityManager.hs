@@ -1,6 +1,6 @@
 module SecurityManager where
 
-import Text.Printf (printf, IsChar)
+import Text.Printf (printf, PrintfArg)
 
 comparePasswords :: String -> String -> Either String String
 comparePasswords pw1 pw2 =
@@ -14,8 +14,9 @@ validatePassword pw =
   then Left "Password must be at least 8 characters in length"
   else Right pw
 
-createUser :: (Monad m, Eq a, IsChar a) => (String -> m ()) -> m [a] -> m ()
-createUser writeLine readLine = do
+createUser :: (Monad m, Foldable t, Eq (t a), PrintfArg (t a), PrintfArg b)
+           => (String -> m ()) -> m (t a) -> (t a -> b) -> m ()
+createUser writeLine readLine encrypt = do
   writeLine "Enter a username"
   username <- readLine
   writeLine "Enter your full name"
@@ -33,7 +34,6 @@ createUser writeLine readLine = do
     then
       writeLine "Password must be at least 8 characters in length"
     else do
-      -- Encrypt the password (just reverse it, should be secure)
-      let array = reverse password
+      let array = encrypt password
       writeLine $
         printf "Saving Details for User (%s, %s, %s)" username fullName array

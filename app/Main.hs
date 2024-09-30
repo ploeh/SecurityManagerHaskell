@@ -3,4 +3,4 @@ module Main (main) where
 import SecurityManager (createUser)
 
 main :: IO ()
-main = createUser putStrLn getLine
+main = createUser putStrLn getLine reverse
