@@ -10,7 +10,7 @@ main = defaultMain $ hUnitTestToTests $ TestList [
   "Matching passwords" ~: do
     pw <- ["password", "12345678", "abcdefgh"]
     let actual = validatePassword pw pw
-    return $ Right () ~=? actual
+    return $ Right pw ~=? actual
   ,
   "Non-matching passwords" ~: do
     (pw1, pw2) <-
