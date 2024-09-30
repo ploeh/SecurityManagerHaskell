@@ -1,6 +1,9 @@
-module SecurityManager (createUser) where
+module SecurityManager where
 
 import Text.Printf (printf, IsChar)
+
+validatePassword :: String -> String -> Either String ()
+validatePassword _ _ = Right ()
 
 createUser :: (Monad m, Eq a, IsChar a) => (String -> m ()) -> m [a] -> m ()
 createUser writeLine readLine = do
