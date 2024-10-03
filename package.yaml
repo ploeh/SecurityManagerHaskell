@@ -47,3 +47,4 @@ tests:
     - HUnit
     - test-framework
     - test-framework-hunit
+    - transformers
