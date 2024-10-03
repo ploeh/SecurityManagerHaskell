@@ -51,4 +51,21 @@ main = defaultMain $ hUnitTestToTests $ TestList [
           "Re-enter your password",
           "Saving Details for User (just.inhale, Justin Hale, 87654321)"]
     return $ expected ~=? actual
+  ,
+  "Mismatched passwords" ~: flip evalState
+      (["i.lean.right", "Ilene Wright", "password", "Password"], []) $ do
+    let writeLine x = modify (second (++ [x]))
+    let readLine = state (\(i, o) -> (head i, (tail i, o)))
+    let encrypt = reverse
+
+    createUser writeLine readLine encrypt
+
+    actual <- gets snd
+    let expected = [
+          "Enter a username",
+          "Enter your full name",
+          "Enter your password",
+          "Re-enter your password",
+          "The passwords don't match"]
+    return $ expected ~=? actual
   ]
