@@ -14,8 +14,8 @@ validatePassword pw =
   then Left "Password must be at least 8 characters in length"
   else Right pw
 
-createUser :: (Monad m, Foldable t, Eq (t a), PrintfArg (t a), PrintfArg b)
-           => (String -> m ()) -> m (t a) -> (t a -> b) -> m ()
+createUser :: (Monad m, PrintfArg a)
+           => (String -> m ()) -> m String -> (String -> a) -> m ()
 createUser writeLine readLine encrypt = do
   writeLine "Enter a username"
   username <- readLine
@@ -26,14 +26,7 @@ createUser writeLine readLine encrypt = do
   writeLine "Re-enter your password"
   confirmPassword <- readLine
 
-  if password /= confirmPassword
-  then
-    writeLine "The passwords don't match"
-  else
-    if length password < 8
-    then
-      writeLine "Password must be at least 8 characters in length"
-    else do
-      let array = encrypt password
-      writeLine $
-        printf "Saving Details for User (%s, %s, %s)" username fullName array
+  writeLine $ either
+    id
+    (printf "Saving Details for User (%s, %s, %s)" username fullName . encrypt)
+    (validatePassword =<< comparePasswords password confirmPassword)
