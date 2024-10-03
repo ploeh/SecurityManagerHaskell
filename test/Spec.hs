@@ -68,4 +68,21 @@ main = defaultMain $ hUnitTestToTests $ TestList [
           "Re-enter your password",
           "The passwords don't match"]
     return $ expected ~=? actual
+  ,
+  "Short password" ~: flip evalState
+      (["jr", "Jasmine Rice", "1234567", "1234567"], []) $ do
+    let writeLine x = modify (second (++ [x]))
+    let readLine = state (\(i, o) -> (head i, (tail i, o)))
+    let encrypt = reverse
+
+    createUser writeLine readLine encrypt
+
+    actual <- gets snd
+    let expected = [
+          "Enter a username",
+          "Enter your full name",
+          "Enter your password",
+          "Re-enter your password",
+          "Password must be at least 8 characters in length"]
+    return $ expected ~=? actual
   ]
